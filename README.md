@@ -2,7 +2,7 @@
   <h1>🚀 Proximity Space</h1>
   <p>A high-performance, real-time multiplayer 2D proximity chat application.</p>
 
-  <img src="./assets/demo.webp" alt="Application Recording" width="800" style="border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);" />
+  <img src="./assets/demo.mp4" alt="Application Recording" width="800" style="border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);" />
   <br /><br />
   <img src="./assets/demo.png" alt="Application Screenshot" width="800" style="border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);" />
 </div>
