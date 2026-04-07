@@ -7,13 +7,13 @@
   <img src="./assets/demo.png" alt="Application Screenshot" width="800" style="border-radius: 12px; box-shadow: 0 8px 32px rgba(0,0,0,0.5);" />
 </div>
 
----
+
 
 ## 🌟 Overview
 
 **Proximity Space** enables users to move freely in a shared 2D environment and interact based on spatial proximity. Communication dynamically activates when users are near and disconnects when they move apart.
 
----
+
 
 ## ✨ Core Features
 
@@ -22,7 +22,7 @@
 - Users represented as animated glowing orbs.
 - Movement via **W, A, S, D** controls.
 
----
+
 
 ### 2. Proximity-Based Interaction Engine
 - Real-time position tracking using **Socket.IO**.
@@ -31,14 +31,14 @@
   - Radar rings (interaction range)
   - Connection beams (active links)
 
----
+
 
 ### 3. Intelligent Chat System
 - Chat auto-enables when users are within range.
 - Chat auto-disables when users move away.
 - Uses Socket.IO rooms for dynamic communication.
 
----
+
 
 ### 4. Modern UI/UX
 - Glassmorphism UI using `backdrop-filter`.
@@ -46,7 +46,7 @@
 - Auto-generated sci-fi usernames.
 - Clean, minimal interface.
 
----
+
 
 ## 🛠️ Tech Stack
 
@@ -60,7 +60,7 @@
 - Express.js
 - Socket.IO
 
----
+
 
 ## ⚙️ System Architecture
 
@@ -69,7 +69,7 @@
 - **Socket.IO** → Real-time communication
 - **In-memory state** → Fast performance without DB
 
----
+
 
 ## ⚖️ Architectural Justifications (Alternatives Used)
 
@@ -85,7 +85,7 @@ Tailwind CSS was suggested, but **Vanilla CSS with CSS Variables** was utilized 
 - **Aesthetics & Glassmorphism**: Achieving the highly specific, customized "Frost Glass" (`backdrop-filter`) and deep-space radial gradients required granular CSS control.
 - **Clean JSX**: By using standard BEM-oriented classes, the `react` component markup remains significantly cleaner and easier to read without utility-class bloat.
 
----
+
 
 ## 🚀 Getting Started
 
@@ -93,7 +93,6 @@ Tailwind CSS was suggested, but **Vanilla CSS with CSS Variables** was utilized 
 - Node.js (v16+)
 - npm
 
----
 
 ### 1. Start Backend
 ```bash
