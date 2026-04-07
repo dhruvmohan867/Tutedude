@@ -3,7 +3,7 @@ import { io } from 'socket.io-client';
 import Viewport from './components/Viewport';
 import Chat from './components/Chat';
 
-const SERVER_URL = 'http://localhost:3001';
+const SERVER_URL = 'https://tutedude-s73f.onrender.com';
 
 function App() {
   const [socket, setSocket] = useState(null);
