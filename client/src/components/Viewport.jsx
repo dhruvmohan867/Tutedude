@@ -62,12 +62,15 @@ const Viewport = ({ socket, myId, users, setUsers }) => {
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
 
-    let animationFrameId;
+    let localX = null;
+    let localY = null;
 
-    const gameLoop = () => {
+    const interval = setInterval(() => {
       const currentUsers = usersRef.current;
       if (myId && currentUsers[myId]) {
-        const myUser = currentUsers[myId];
+        if (localX === null) localX = currentUsers[myId].x;
+        if (localY === null) localY = currentUsers[myId].y;
+
         let dx = 0; let dy = 0;
         if (keys.w) dy -= SPEED;
         if (keys.s) dy += SPEED;
@@ -75,27 +78,27 @@ const Viewport = ({ socket, myId, users, setUsers }) => {
         if (keys.d) dx += SPEED;
 
         if (dx !== 0 || dy !== 0) {
-          const newX = myUser.x + dx;
-          const newY = myUser.y + dy;
-          socket.emit('move', { x: newX, y: newY });
+          localX += dx;
+          localY += dy;
+          socket.emit('move', { x: localX, y: localY });
           
           if (setUsers) {
-            setUsers(prev => ({
-              ...prev,
-              [myId]: { ...prev[myId], x: newX, y: newY }
-            }));
+            setUsers(prev => {
+              if (!prev[myId]) return prev;
+              return {
+                ...prev,
+                [myId]: { ...prev[myId], x: localX, y: localY }
+              };
+            });
           }
         }
       }
-      animationFrameId = requestAnimationFrame(gameLoop);
-    };
-
-    gameLoop();
+    }, 1000 / 60);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
-      cancelAnimationFrame(animationFrameId);
+      clearInterval(interval);
     };
   }, [socket, myId]);
 

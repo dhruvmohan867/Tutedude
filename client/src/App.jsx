@@ -33,6 +33,9 @@ function App() {
     });
 
     newSocket.on('user_moved', (data) => {
+      // Ignore echoing our own movement from the server to prevent rubber-band jitter
+      if (data.id === newSocket.id) return;
+      
       setUsers((prev) => {
         if (!prev[data.id]) return prev;
         return {
