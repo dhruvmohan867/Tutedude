@@ -30,9 +30,9 @@ const Connections = ({ users, myId }) => {
   return <Graphics draw={drawLines} />;
 };
 
-const SPEED = 5;
+const SPEED = 10;
 
-const Viewport = ({ socket, myId, users }) => {
+const Viewport = ({ socket, myId, users, setUsers }) => {
   const [windowSize, setWindowSize] = useState({ width: window.innerWidth - 350, height: window.innerHeight });
   const usersRef = useRef(users);
 
@@ -62,26 +62,40 @@ const Viewport = ({ socket, myId, users }) => {
     window.addEventListener('keydown', handleKeyDown);
     window.addEventListener('keyup', handleKeyUp);
 
-    const interval = setInterval(() => {
-      const currentUsers = usersRef.current;
-      const myUser = currentUsers[myId];
-      if (!myUser) return;
-      
-      let dx = 0; let dy = 0;
-      if (keys.w) dy -= SPEED;
-      if (keys.s) dy += SPEED;
-      if (keys.a) dx -= SPEED;
-      if (keys.d) dx += SPEED;
+    let animationFrameId;
 
-      if (dx !== 0 || dy !== 0) {
-        socket.emit('move', { x: myUser.x + dx, y: myUser.y + dy });
+    const gameLoop = () => {
+      const currentUsers = usersRef.current;
+      if (myId && currentUsers[myId]) {
+        const myUser = currentUsers[myId];
+        let dx = 0; let dy = 0;
+        if (keys.w) dy -= SPEED;
+        if (keys.s) dy += SPEED;
+        if (keys.a) dx -= SPEED;
+        if (keys.d) dx += SPEED;
+
+        if (dx !== 0 || dy !== 0) {
+          const newX = myUser.x + dx;
+          const newY = myUser.y + dy;
+          socket.emit('move', { x: newX, y: newY });
+          
+          if (setUsers) {
+            setUsers(prev => ({
+              ...prev,
+              [myId]: { ...prev[myId], x: newX, y: newY }
+            }));
+          }
+        }
       }
-    }, 1000 / 60);
+      animationFrameId = requestAnimationFrame(gameLoop);
+    };
+
+    gameLoop();
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('keyup', handleKeyUp);
-      clearInterval(interval);
+      cancelAnimationFrame(animationFrameId);
     };
   }, [socket, myId]);
 

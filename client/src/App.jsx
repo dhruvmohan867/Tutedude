@@ -58,7 +58,7 @@ function App() {
   return (
     <div className="app-container">
       <div className="viewport-container">
-        <Viewport socket={socket} myId={myId} users={users} />
+        <Viewport socket={socket} myId={myId} users={users} setUsers={setUsers} />
         
         <div className="glass-panel instruction-overlay">
           <h3>Proximity Space</h3>
