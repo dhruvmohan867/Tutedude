@@ -71,6 +71,22 @@
 
 ---
 
+## ⚖️ Architectural Justifications (Alternatives Used)
+
+As per the project guidelines, alternatives to the recommended stack can be used if justified. Below are the architectural decisions made:
+
+### 1. In-Memory State vs. MongoDB
+The recommended stack suggested MongoDB for user/session storage. However, an **In-Memory State** pattern was chosen for this specific proximity chat application:
+- **Nature of the App**: Users are anonymous and their connections are purely transient. Storing real-time coordinates (x/y) in an SSD/Disk-based database like MongoDB creates unnecessary latency and I/O bottlenecks.
+- **Performance**: Maintaining `socket.id` hashes dynamically in Node.js memory ensures `O(1)` sub-millisecond lookup speeds, which is absolutely critical for calculating geometry distances across all users 60 times a second.
+
+### 2. Custom CSS & Glassmorphism vs. Tailwind CSS
+Tailwind CSS was suggested, but **Vanilla CSS with CSS Variables** was utilized instead:
+- **Aesthetics & Glassmorphism**: Achieving the highly specific, customized "Frost Glass" (`backdrop-filter`) and deep-space radial gradients required granular CSS control.
+- **Clean JSX**: By using standard BEM-oriented classes, the `react` component markup remains significantly cleaner and easier to read without utility-class bloat.
+
+---
+
 ## 🚀 Getting Started
 
 ### Prerequisites
