@@ -26,46 +26,52 @@ const Chat = ({ socket, canChat, myId }) => {
   };
 
   return (
-    <div className="glass-panel chat-container">
+    <div className={`glass-panel chat-container ${canChat ? 'half-screen' : 'minimized'}`}>
       <div className={`chat-header ${canChat ? 'active' : 'disabled'}`}>
-        {canChat ? 'Comms Link Active' : 'Signal Lost - Move Closer'}
+        {canChat ? (
+          <span>Comms Link Active</span>
+        ) : (
+          <span className="minimized-text">🔌 SIGNAL LOST - MOVE CLOSER 🔌</span>
+        )}
       </div>
       
-      <div className="chat-history">
-        {messages.map((msg, idx) => {
-          const isMe = msg.senderId === myId;
-          return (
-            <div key={idx} className={`message-wrapper ${isMe ? 'me' : 'other'}`}>
-              <div className="message-meta">
-                {isMe ? 'You' : msg.senderName} • {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+      <div className="chat-content">
+        <div className="chat-history">
+          {messages.map((msg, idx) => {
+            const isMe = msg.senderId === myId;
+            return (
+              <div key={idx} className={`message-wrapper ${isMe ? 'me' : 'other'}`}>
+                <div className="message-meta">
+                  {isMe ? 'You' : msg.senderName} • {new Date(msg.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
+                <div className="message-bubble">
+                  {msg.text}
+                </div>
               </div>
-              <div className="message-bubble">
-                {msg.text}
-              </div>
-            </div>
-          );
-        })}
-        <div ref={messagesEndRef} />
-      </div>
+            );
+          })}
+          <div ref={messagesEndRef} />
+        </div>
 
-      <div className="chat-input-area">
-        <form onSubmit={sendMessage} className="chat-form">
-          <input 
-            type="text" 
-            value={input} 
-            onChange={e => setInput(e.target.value)}
-            disabled={!canChat}
-            placeholder={canChat ? 'Transmit message...' : 'Connection severed...'}
-            className="chat-input"
-          />
-          <button 
-            type="submit" 
-            disabled={!canChat || !input.trim()}
-            className="chat-send-btn"
-          >
-            Send
-          </button>
-        </form>
+        <div className="chat-input-area">
+          <form onSubmit={sendMessage} className="chat-form">
+            <input 
+              type="text" 
+              value={input} 
+              onChange={e => setInput(e.target.value)}
+              disabled={!canChat}
+              placeholder={canChat ? 'Transmit message...' : 'Connection severed...'}
+              className="chat-input"
+            />
+            <button 
+              type="submit" 
+              disabled={!canChat || !input.trim()}
+              className="chat-send-btn"
+            >
+              Send
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
